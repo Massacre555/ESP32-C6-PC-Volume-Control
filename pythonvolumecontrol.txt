@@ -1,0 +1,29 @@
+Python 3.13.5 (tags/v3.13.5:6cb20a2, Jun 11 2025, 16:15:46) [MSC v.1943 64 bit (AMD64)] on win32
+Enter "help" below or click "Help" above for more information.
+>>> import serial
+... import time
+... import keyboard
+... 
+... COM_PORT = "COM4"
+... BAUD_RATE = 9600
+... 
+... try:
+...     ser = serial.Serial(COM_PORT, BAUD_RATE, timeout=1)
+...     print(f"Listening on {COM_PORT}...")
+... except serial.SerialException:
+...     print(f"Could not open {COM_PORT}. Make sure your ESP32 is connected.")
+...     exit(1)
+... 
+... while True:
+...     try:
+...         line = ser.readline().decode("utf-8").strip()
+...         if line == "VOLUME_UP":
+...             keyboard.send("volume up")
+...         elif line == "VOLUME_DOWN":
+...             keyboard.send("volume down")
+...         elif line == "BUTTON_PRESS":
+...             keyboard.send("volume mute")
+...     except Exception as e:
+...         print("Error:", e)
+...         time.sleep(1)
+... 
